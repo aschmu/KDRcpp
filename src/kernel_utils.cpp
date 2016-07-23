@@ -16,6 +16,14 @@ arma::mat centerMatrix(const arma::mat& X) {
   
 }
 
+//' Radial basis function kernel matrix
+//'
+//' @param X an n x d matrix or numeric vector
+//' @param Y an n x d matrix or numeric vector
+//'
+//' @return an n x n distance matrix
+//'
+//' @export
 // [[Rcpp::export]]
 arma::mat distSquared(arma::mat A, arma::mat B) {
   arma::colvec An =  arma::sum(square(A), 1);
@@ -28,6 +36,19 @@ arma::mat distSquared(arma::mat A, arma::mat B) {
   return C;
 }
 
+//' Radial basis function kernel matrix
+//'
+//' @param X an n x d matrix or numeric vector
+//' @param Y an n x e matrix or numeric vector
+//' @param sigma the scale parameter for the rbf kernel
+//'
+//' @return an n x n rbf kernel matrix
+//'
+//' @details this should be slightly faster than using \code{\link[kernlab]{kernelMatrix}}
+//' @examples
+//' x <- as.matrix(rnorm(5e2, 0, 1))
+//' K <- RBFdot(x, x, .5)
+//' @export
 // [[Rcpp::export]]
 arma::mat RBFdot(const arma::mat& X, const arma::mat& Y, const double sigma) {
   if (sigma <=0.0) {

@@ -133,7 +133,17 @@ double Fmin(double a, double b, F &obj, FMemFn f, double tol)
   return x;
 }
 
-
+//' KDR gradient descent with line search
+//'
+//' @param X an n x d matrix
+//' @param Ky an n x n kernel Matrix associated with \code{Y}
+//' @param sz2 the kernel variance
+//' @param B a d x r matrix, the current SDR matrix estimate
+//' @param dB a d x r matrix, the gradient at \code{B}
+//' @param eta a positive numeric, the upper bound on the linesearch parameter
+//' @param eps a positive regularization parameter
+//'
+//' @return the step size parameter
 // [[Rcpp::export]]
 List kdr_linesearch_cpp(const arma::mat& X, 
                         const arma::mat& Ky,
