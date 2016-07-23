@@ -38,7 +38,6 @@ arma::mat kdr_trace_cpp(arma::mat& X, arma::mat& Y, const unsigned int K, const 
   arma::mat Kz = centerMatrix(Gz);
   Kz += Kz.t();
   Kz *= 0.5;
-  // Kz = .5*(Kz + Kz.t());
   
   arma::mat mz = arma::inv_sympd(Kz + eps*n*arma::eye(n, n));//solve(Kz + eps*n*diag(n))
   double tr = arma::accu(Kyo % mz); //sum(Kyo*mz)
@@ -90,7 +89,7 @@ arma::mat kdr_trace_cpp(arma::mat& X, arma::mat& Y, const unsigned int K, const 
     
     if (nm < tol)
       break;
-    // nm = norm(dB, "2");
+    
     List res_linesearch = kdr_linesearch_cpp(X, Ky, sz2, B, dB/nm, eta, eps, 1e-4);
     B  = as<arma::mat>(res_linesearch["Bn"]);
     tr = res_linesearch["tr"];
