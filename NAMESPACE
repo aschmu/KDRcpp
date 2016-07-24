@@ -3,3 +3,5 @@
 export(RBFdot)
 export(distSquared)
 export(kdr_trace_cpp)
+importFrom(Rcpp,sourceCpp)
+useDynLib(KDRcpp)
