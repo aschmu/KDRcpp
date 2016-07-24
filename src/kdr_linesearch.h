@@ -1,7 +1,7 @@
 #ifndef _KDR_LS_H
 #define _KDR_LS_H
 
-#include "annealed_gradient_descent.hpp"
+#include "annealed_gradient_descent.h"
 #include <RcppArmadillo.h>
 
 

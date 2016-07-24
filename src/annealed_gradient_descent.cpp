@@ -1,5 +1,5 @@
-#include "annealed_gradient_descent.hpp"
-#include "kernel_utils.hpp"
+#include "annealed_gradient_descent.h"
+#include "kernel_utils.h"
 
 using namespace Rcpp;
 

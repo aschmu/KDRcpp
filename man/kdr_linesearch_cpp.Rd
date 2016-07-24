@@ -20,11 +20,17 @@ kdr_linesearch_cpp(X, Ky, sz2, B, dB, eta, eps, tol = 1e-04)
 \item{eta}{a positive numeric, the upper bound on the linesearch parameter}
 
 \item{eps}{a positive regularization parameter}
+
+\item{tol}{a stopping tolerance for the minimizer}
 }
 \value{
 the step size parameter
 }
 \description{
 KDR gradient descent with line search
+}
+\details{
+The function implements a simple linesearch by minimizing a univariate 
+function on [0, \code{eta}] using Brent's algorithm
 }
 

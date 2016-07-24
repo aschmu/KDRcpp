@@ -1,4 +1,4 @@
-#include "annealed_gradient_descent.hpp"
+#include "annealed_gradient_descent.h"
 #include <limits>
 #include <cmath>
 #include <RcppArmadillo.h>
@@ -142,6 +142,9 @@ double Fmin(double a, double b, F &obj, FMemFn f, double tol)
 //' @param dB a d x r matrix, the gradient at \code{B}
 //' @param eta a positive numeric, the upper bound on the linesearch parameter
 //' @param eps a positive regularization parameter
+//' @param tol a stopping tolerance for the minimizer
+//' @details The function implements a simple linesearch by minimizing a univariate 
+//' function on [0, \code{eta}] using Brent's algorithm
 //'
 //' @return the step size parameter
 // [[Rcpp::export]]

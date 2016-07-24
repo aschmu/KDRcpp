@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{kdr_trace_cpp}
 \alias{kdr_trace_cpp}
-\title{Kernel dimension reduction with rbf kernels}
+\title{Kernel dimension reduction}
 \usage{
 kdr_trace_cpp(X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl,
   verbose = TRUE, tol = 1e-09)
@@ -11,6 +11,8 @@ kdr_trace_cpp(X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl,
 \item{X}{an n x d matrix of inputs}
 
 \item{Y}{an n x 1 matrix of outputs}
+
+\item{K}{an integer denoting the SDR subspace dimension}
 
 \item{max_loop}{the number of annealing steps}
 
@@ -27,15 +29,12 @@ kdr_trace_cpp(X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl,
 \item{verbose}{a boolean for detailed output}
 
 \item{tol}{a stopping tolerance for gradient descent}
-
-\item{B}{a d x r matrix of initial effective directions estimate or an integer denoting the SDR subspace dimension}
-
-\item{init_deriv}{a boolean indicating whether to initialize the SDR matrix estimate with the derivative at \code{B}}
-
-\item{disp}{a boolean, whether to display optimization progress (not implemented)}
 }
 \value{
 a d x r matrix with the estimated effective directions
+}
+\description{
+Kernel dimension reduction with rbf kernels
 }
 \details{
 For more details, see:Fukumizu, K. Francis R. Bach and M. Jordan. Kernel dimension reduction in regression.
@@ -44,32 +43,34 @@ The Annals of Statistics. 37(4), pp.1871-1905 (2009)
 \examples{
 \dontrun{
 data(wine)
-p <- 2target reduced dimension
-l <- 3number of classes in the wine data
+p <- 2 #target reduced dimension
+l <- 3 #number of classes in the wine data
 m <- ncol(wine) - l
 X <- as.matrix(wine[, 1:m])
 Y <- as.matrix(wine[, (m+1):(m+l)])
 Xs <- scale(X)
-sx <- estim_sigma_median(Xs)
-sy <- estim_sigma_median(Y)
+sx <- 5
+sy <- 1.4
 
-max_loop <- 50    number of iterations in kdr method
-eps <- 0.0001   regularization parameter for matrix inversion	
-eta <-10.0     range of the golden ratio search
-anl	<- 4        maximum value for anealing
+max_loop <- 50  #number of iterations in kdr method
+eps <- 0.0001   #regularization parameter for matrix inversion	
+eta <-10.0      #range of the golden ratio search
+anl	<- 4        #maximum value for anealing
 eta <- 10
-verbose <- T    print the optimization process
-disp <- 0
-init_deriv <- F  1: initialization by derivative method. 0: random
+verbose <- T    #print the optimization process info?
 
-Gaussian kernels are used.  Deviation parameter are set by the median of
-mutual distances.   In the aneaning, sigma chages to 2*median to
-0.5*median
+#Gaussian kernels are used. Deviation parameters are set by the median of
+#mutual distances. In the anealling, sigma chages to 2*median to
+#0.5*median
 sgx <- 0.5*sx
-sgy <- sy  As Y is discrete, tuning is not necessary.
+sgy <- sy  #Y is discrete, tuning is not necessary.
 
-cputime <- system.time(B <- kdr_trace_cpp(X = Xs, Y = Y, K = p, max_loop = max_loop, sigmax0 = sx*sqrt(p/m),
-                                         sigmay0 = sy, eps = eps, eta = eta, anl = anl, verbose = verbose,
+cputime <- system.time(B <- kdr_trace_cpp(X = Xs, Y = Y, K = p, 
+                                         max_loop = max_loop,
+                                         sigmax0 = sx*sqrt(p/m),
+                                         sigmay0 = sy, eps = eps,
+                                         eta = eta, anl = anl, 
+                                         verbose = verbose,
                                          tol = 1e-9))
 
 Z <- Xs\%*\%B

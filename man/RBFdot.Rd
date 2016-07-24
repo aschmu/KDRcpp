@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{RBFdot}
 \alias{RBFdot}
-\title{Radial basis function kernel matrix}
+\title{RBF kernel matrix}
 \usage{
 RBFdot(X, Y, sigma)
 }

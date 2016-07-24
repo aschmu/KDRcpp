@@ -10,17 +10,22 @@
 #' @param dB a d x r matrix, the gradient at \code{B}
 #' @param eta a positive numeric, the upper bound on the linesearch parameter
 #' @param eps a positive regularization parameter
+#' @param tol a stopping tolerance for the minimizer
+#' @details The function implements a simple linesearch by minimizing a univariate 
+#' function on [0, \code{eta}] using Brent's algorithm
 #'
 #' @return the step size parameter
 kdr_linesearch_cpp <- function(X, Ky, sz2, B, dB, eta, eps, tol = 1e-4) {
     .Call('KDRcpp_kdr_linesearch_cpp', PACKAGE = 'KDRcpp', X, Ky, sz2, B, dB, eta, eps, tol)
 }
 
-#' @title Kernel dimension reduction with rbf kernels
+#' Kernel dimension reduction with rbf kernels
+#' 
+#' @title Kernel dimension reduction 
 #'
 #' @param X an n x d matrix of inputs
 #' @param Y an n x 1 matrix of outputs
-#' @param B a d x r matrix of initial effective directions estimate or an integer denoting the SDR subspace dimension
+#' @param K an integer denoting the SDR subspace dimension
 #' @param max_loop the number of annealing steps
 #' @param sigmax0 the initial unannealed kernel for the \code{X} rbf kernel
 #' @param sigmay0 the initial unannealed kernel for the \code{Y} rbf kernel
@@ -29,8 +34,6 @@ kdr_linesearch_cpp <- function(X, Ky, sz2, B, dB, eta, eps, tol = 1e-4) {
 #' @param anl a positive numeric, the annealing parameter
 #' @param verbose a boolean for detailed output
 #' @param tol a stopping tolerance for gradient descent
-#' @param init_deriv a boolean indicating whether to initialize the SDR matrix estimate with the derivative at \code{B}
-#' @param disp a boolean, whether to display optimization progress (not implemented)
 #' @details For more details, see:Fukumizu, K. Francis R. Bach and M. Jordan. Kernel dimension reduction in regression.
 #' The Annals of Statistics. 37(4), pp.1871-1905 (2009)
 #'
@@ -39,32 +42,34 @@ kdr_linesearch_cpp <- function(X, Ky, sz2, B, dB, eta, eps, tol = 1e-4) {
 #' @examples
 #' \dontrun{
 #' data(wine)
-#' p <- 2target reduced dimension
-#' l <- 3number of classes in the wine data
+#' p <- 2 #target reduced dimension
+#' l <- 3 #number of classes in the wine data
 #' m <- ncol(wine) - l
 #' X <- as.matrix(wine[, 1:m])
 #' Y <- as.matrix(wine[, (m+1):(m+l)])
 #' Xs <- scale(X)
-#' sx <- estim_sigma_median(Xs)
-#' sy <- estim_sigma_median(Y)
+#' sx <- 5
+#' sy <- 1.4
 #'
-#' max_loop <- 50    number of iterations in kdr method
-#' eps <- 0.0001   regularization parameter for matrix inversion	
-#' eta <-10.0     range of the golden ratio search
-#' anl	<- 4        maximum value for anealing
+#' max_loop <- 50  #number of iterations in kdr method
+#' eps <- 0.0001   #regularization parameter for matrix inversion	
+#' eta <-10.0      #range of the golden ratio search
+#' anl	<- 4        #maximum value for anealing
 #' eta <- 10
-#' verbose <- T    print the optimization process
-#' disp <- 0
-#' init_deriv <- F  1: initialization by derivative method. 0: random
+#' verbose <- T    #print the optimization process info?
 #'
-#' Gaussian kernels are used.  Deviation parameter are set by the median of
-#' mutual distances.   In the aneaning, sigma chages to 2*median to
-#' 0.5*median
+#' #Gaussian kernels are used. Deviation parameters are set by the median of
+#' #mutual distances. In the anealling, sigma chages to 2*median to
+#' #0.5*median
 #' sgx <- 0.5*sx
-#' sgy <- sy  As Y is discrete, tuning is not necessary.
+#' sgy <- sy  #Y is discrete, tuning is not necessary.
 #'
-#' cputime <- system.time(B <- kdr_trace_cpp(X = Xs, Y = Y, K = p, max_loop = max_loop, sigmax0 = sx*sqrt(p/m),
-#'                                          sigmay0 = sy, eps = eps, eta = eta, anl = anl, verbose = verbose,
+#' cputime <- system.time(B <- kdr_trace_cpp(X = Xs, Y = Y, K = p, 
+#'                                          max_loop = max_loop,
+#'                                          sigmax0 = sx*sqrt(p/m),
+#'                                          sigmay0 = sy, eps = eps,
+#'                                          eta = eta, anl = anl, 
+#'                                          verbose = verbose,
 #'                                          tol = 1e-9))
 #'
 #' Z <- Xs%*%B
@@ -75,17 +80,23 @@ kdr_trace_cpp <- function(X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl, ve
     .Call('KDRcpp_kdr_trace_cpp', PACKAGE = 'KDRcpp', X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl, verbose, tol)
 }
 
+#' Center a numeric matrix
+#' 
+#' @title Center a matrix
+#' @param X an n x d matrix 
+#' @return the n x d centred matrix
+#' 
 centerMatrix <- function(X) {
     .Call('KDRcpp_centerMatrix', PACKAGE = 'KDRcpp', X)
 }
 
-#' Radial basis function kernel matrix
+#' Squared distance matrix computation
 #'
-#' @param X an n x d matrix or numeric vector
-#' @param Y an n x d matrix or numeric vector
+#' @title Squared distance matrix
+#' @param A an n x d matrix 
+#' @param B an n x d matrix 
 #'
 #' @return an n x n distance matrix
-#'
 #' @export
 distSquared <- function(A, B) {
     .Call('KDRcpp_distSquared', PACKAGE = 'KDRcpp', A, B)
@@ -93,6 +104,7 @@ distSquared <- function(A, B) {
 
 #' Radial basis function kernel matrix
 #'
+#' @title RBF kernel matrix
 #' @param X an n x d matrix or numeric vector
 #' @param Y an n x e matrix or numeric vector
 #' @param sigma the scale parameter for the rbf kernel
@@ -100,10 +112,10 @@ distSquared <- function(A, B) {
 #' @return an n x n rbf kernel matrix
 #'
 #' @details this should be slightly faster than using \code{\link[kernlab]{kernelMatrix}}
+#' @export
 #' @examples
 #' x <- as.matrix(rnorm(5e2, 0, 1))
 #' K <- RBFdot(x, x, .5)
-#' @export
 RBFdot <- function(X, Y, sigma) {
     .Call('KDRcpp_RBFdot', PACKAGE = 'KDRcpp', X, Y, sigma)
 }

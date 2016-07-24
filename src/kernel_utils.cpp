@@ -1,8 +1,14 @@
-#include "kernel_utils.hpp"
+#include "kernel_utils.h"
 
 
 // using namespace arma;
 
+//' Center a numeric matrix
+//' 
+//' @title Center a matrix
+//' @param X an n x d matrix 
+//' @return the n x d centred matrix
+//' 
 // [[Rcpp::export]]
 arma::mat centerMatrix(const arma::mat& X) {
   const int n = X.n_rows;
@@ -16,13 +22,13 @@ arma::mat centerMatrix(const arma::mat& X) {
   
 }
 
-//' Radial basis function kernel matrix
+//' Squared distance matrix computation
 //'
-//' @param X an n x d matrix or numeric vector
-//' @param Y an n x d matrix or numeric vector
+//' @title Squared distance matrix
+//' @param A an n x d matrix 
+//' @param B an n x d matrix 
 //'
 //' @return an n x n distance matrix
-//'
 //' @export
 // [[Rcpp::export]]
 arma::mat distSquared(arma::mat A, arma::mat B) {
@@ -38,6 +44,7 @@ arma::mat distSquared(arma::mat A, arma::mat B) {
 
 //' Radial basis function kernel matrix
 //'
+//' @title RBF kernel matrix
 //' @param X an n x d matrix or numeric vector
 //' @param Y an n x e matrix or numeric vector
 //' @param sigma the scale parameter for the rbf kernel
@@ -45,10 +52,10 @@ arma::mat distSquared(arma::mat A, arma::mat B) {
 //' @return an n x n rbf kernel matrix
 //'
 //' @details this should be slightly faster than using \code{\link[kernlab]{kernelMatrix}}
+//' @export
 //' @examples
 //' x <- as.matrix(rnorm(5e2, 0, 1))
 //' K <- RBFdot(x, x, .5)
-//' @export
 // [[Rcpp::export]]
 arma::mat RBFdot(const arma::mat& X, const arma::mat& Y, const double sigma) {
   if (sigma <=0.0) {

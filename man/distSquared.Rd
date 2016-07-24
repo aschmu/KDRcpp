@@ -2,19 +2,19 @@
 % Please edit documentation in R/RcppExports.R
 \name{distSquared}
 \alias{distSquared}
-\title{Radial basis function kernel matrix}
+\title{Squared distance matrix}
 \usage{
 distSquared(A, B)
 }
 \arguments{
-\item{X}{an n x d matrix or numeric vector}
+\item{A}{an n x d matrix}
 
-\item{Y}{an n x d matrix or numeric vector}
+\item{B}{an n x d matrix}
 }
 \value{
 an n x n distance matrix
 }
 \description{
-Radial basis function kernel matrix
+Squared distance matrix computation
 }
 
