@@ -1,3 +1,5 @@
+#' KDRcpp: A package for performing sufficient dimension reductions via kernel embeddings
+#' 
 #' @author A. Murangira <murangira@gmail.com>
 #' @docType package
 #' @useDynLib KDRcpp
