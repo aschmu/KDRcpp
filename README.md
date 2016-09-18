@@ -1,3 +1,5 @@
+[![Travis-CI Build Status](https://travis-ci.org/aschmu/KDRcpp.svg?branch=master)](https://travis-ci.org/aschmu/KDRcpp)
+
 # Kernel Dimension Reduction with RcppArmadillo
 
 KDRcpp is a R/C++ port of the [KDR Matlab implementation](http://www.ism.ac.jp/~fukumizu/software.html) by K. Fukumizu.
