@@ -159,7 +159,7 @@ List kdr_linesearch_cpp(const arma::mat& X,
   
   const int n = X.n_rows;
   
-  F f =  F(B, dB, Ky, X, n, eps, sz2, eta);
+  F f =  F(B, dB, Ky, X, n, eps, sz2);
   
   FMemFn fun = &F::kdr1dim;
   double sopt = Fmin(0.0, eta, f, fun, tol);

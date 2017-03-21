@@ -3,8 +3,8 @@
 
 using namespace Rcpp;
 
-F::F(arma::mat Bi, arma::mat dBi, arma::mat Kyi, arma::mat Xi, int ni, double epsi, double sz2i, double etai) :
-  B_(Bi), dB_(dBi), Ky_(Kyi), X_(Xi), n_(ni), eps_(epsi), sz2_(sz2i), eta_(etai) {}
+F::F(arma::mat Bi, arma::mat dBi, arma::mat Kyi, arma::mat Xi, int ni, double epsi, double sz2i) :
+  B_(Bi), dB_(dBi), Ky_(Kyi), X_(Xi), n_(ni), eps_(epsi), sz2_(sz2i) {}
   
 double F::kdr1dim(double s) {
   arma::mat tmpB = B_ - s*dB_;

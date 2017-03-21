@@ -10,10 +10,10 @@ class F {
 private:
   arma::mat B_, dB_, Ky_, X_;
   int n_;
-  double eps_, sz2_, eta_;
+  double eps_, sz2_;
 public:
   F(arma::mat Bi, arma::mat dBi, arma::mat Kyi, arma::mat Xi, 
-    int ni, double epsi, double sz2i, double etai);
+    int ni, double epsi, double sz2i);
   double kdr1dim(double s);
   
 }
