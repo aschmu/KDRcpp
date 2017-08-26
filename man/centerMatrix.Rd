@@ -15,4 +15,3 @@ the n x d centred matrix
 \description{
 Center a numeric matrix
 }
-

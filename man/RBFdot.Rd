@@ -26,4 +26,3 @@ this should be slightly faster than using \code{\link[kernlab]{kernelMatrix}}
 x <- as.matrix(rnorm(5e2, 0, 1))
 K <- RBFdot(x, x, .5)
 }
-

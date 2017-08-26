@@ -17,4 +17,3 @@ an n x n distance matrix
 \description{
 Squared distance matrix computation
 }
-

@@ -12,4 +12,3 @@ wine
 Wine data set
 }
 \keyword{datasets}
-

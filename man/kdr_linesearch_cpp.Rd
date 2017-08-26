@@ -33,4 +33,3 @@ KDR gradient descent with line search
 The function implements a simple linesearch by minimizing a univariate 
 function on [0, \code{eta}] using Brent's algorithm
 }
-

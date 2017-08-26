@@ -64,8 +64,8 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 arma::mat kdr_trace_cpp(arma::mat& X, arma::mat& Y, const unsigned int K, const int max_loop, const double sigmax0,
-                  const double sigmay0, const double eps, const double eta, const double anl,
-                  bool verbose = true, const double tol = 1e-9)
+                        const double sigmay0, const double eps, const double eta, const double anl,
+                        bool verbose = true, const double tol = 1e-9)
 {
   const unsigned int n = X.n_rows;
   const unsigned int d = X.n_cols;
