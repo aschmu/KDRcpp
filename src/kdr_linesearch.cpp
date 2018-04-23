@@ -157,7 +157,7 @@ List kdr_linesearch_cpp(const arma::mat& X,
                         const double eps, 
                         const double tol=1e-4) {
   
-  const int n = X.n_rows;
+  const size_t n = X.n_rows;
   
   F f =  F(B, dB, Ky, X, n, eps, sz2);
   

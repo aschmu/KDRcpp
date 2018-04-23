@@ -67,8 +67,8 @@ arma::mat kdr_trace_cpp(arma::mat& X, arma::mat& Y, const unsigned int K, const 
                         const double sigmay0, const double eps, const double eta, const double anl,
                         bool verbose = true, const double tol = 1e-9)
 {
-  const unsigned int n = X.n_rows;
-  const unsigned int d = X.n_cols;
+  const size_t n = X.n_rows;
+  const size_t d = X.n_cols;
   
   if (n != Y.n_rows)
     stop("X and Y have incompatible dimensions ");
@@ -128,11 +128,11 @@ arma::mat kdr_trace_cpp(arma::mat& X, arma::mat& Y, const unsigned int K, const 
     dB = arma::zeros<arma::mat>(d, K);
     KziKyzi = Kzi*Kyzi;
     
-    for (unsigned int a=0; a<d; a++)
+    for (size_t a=0; a<d; a++)
     {
       Xa = repmat(X.col(a), 1, n);
       Xa -= Xa.t();
-      for (unsigned int b=0; b < K; b++) 
+      for (size_t b=0; b < K; b++) 
       {
         Zb = repmat(Z.col(b), 1, n);
         tt = Xa % (Zb - Zb.t()) % Kzw;

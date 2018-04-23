@@ -1,0 +1,64 @@
+---
+title: "KDR Demo"
+author: "A. Murangira"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This quick demo uses the wine dataset from the [UCI repository](https://archive.ics.uci.edu/ml/datasets/wine). This dataset consists in 12 variables + 1 class label (alcohol degree). We try to find the best linear 2D subspace for a classification task.
+
+```{r}
+library(KDRcpp)
+library(ggplot2)
+
+data(wine)
+p <- 2 #target reduced dimension
+l <- 3 #number of classes in the wine data
+m <- ncol(wine) - l
+X <- as.matrix(wine[, 1:m])
+Y <- as.matrix(wine[, (m+1):(m+l)])
+Xs <- scale(X)
+sx <- 5
+sy <- 1.4
+
+max_loop <- 50    #number of iterations in kdr method
+eps <- 0.0001     #regularization parameter for matrix inversion	
+eta <-10.0        #range of the golden ratio search
+anl	<- 4         #maximum value for anealing
+eta <- 10
+verbose <- TRUE   #print the optimization process info?
+
+#Gaussian kernels are used. Deviation parameters are set by the median of
+#mutual distances. In the anealling, sigma chages to 2*median to
+#0.5*median
+
+sgx <- 0.5*sx
+sgy <- sy  #Y is discrete, tuning is not necessary.
+
+cputime <- system.time(B <- kdr_trace_cpp(X = Xs, Y = Y, K = p, 
+                                          max_loop = max_loop,
+                                          sigmax0 = sx*sqrt(p/m),
+                                          sigmay0 = sy, eps = eps,
+                                          eta = eta, anl = anl, 
+                                          verbose = verbose,
+                                          tol = 1e-9))
+
+Z <- Xs%*%B
+get_class <- function(Y) {
+  y <- rep(NA, nrow(Y))
+  y[Y[, 1] == 1] <- 1L
+  y[Y[, 2] == 1] <- 2L
+  y[Y[, 3] == 1] <- 3L
+  y
+}
+library(ggplot2)
+df <-  data.frame(z1 = Z[, 1], z2 = Z[, 2], class = as.factor(get_class(Y)))
+
+ggplot(data = df, aes(x = z1, y = z2, col=class)) +
+  geom_point() + theme_classic()
+```
+

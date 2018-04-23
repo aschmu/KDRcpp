@@ -16,7 +16,7 @@
 #'
 #' @return the step size parameter
 kdr_linesearch_cpp <- function(X, Ky, sz2, B, dB, eta, eps, tol = 1e-4) {
-    .Call('KDRcpp_kdr_linesearch_cpp', PACKAGE = 'KDRcpp', X, Ky, sz2, B, dB, eta, eps, tol)
+    .Call('_KDRcpp_kdr_linesearch_cpp', PACKAGE = 'KDRcpp', X, Ky, sz2, B, dB, eta, eps, tol)
 }
 
 #' Kernel dimension reduction with rbf kernels
@@ -77,7 +77,7 @@ kdr_linesearch_cpp <- function(X, Ky, sz2, B, dB, eta, eps, tol = 1e-4) {
 #' }
 #' @export
 kdr_trace_cpp <- function(X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl, verbose = TRUE, tol = 1e-9) {
-    .Call('KDRcpp_kdr_trace_cpp', PACKAGE = 'KDRcpp', X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl, verbose, tol)
+    .Call('_KDRcpp_kdr_trace_cpp', PACKAGE = 'KDRcpp', X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl, verbose, tol)
 }
 
 #' Center a numeric matrix
@@ -87,7 +87,7 @@ kdr_trace_cpp <- function(X, Y, K, max_loop, sigmax0, sigmay0, eps, eta, anl, ve
 #' @return the n x d centred matrix
 #' 
 centerMatrix <- function(X) {
-    .Call('KDRcpp_centerMatrix', PACKAGE = 'KDRcpp', X)
+    .Call('_KDRcpp_centerMatrix', PACKAGE = 'KDRcpp', X)
 }
 
 #' Squared distance matrix computation
@@ -99,7 +99,7 @@ centerMatrix <- function(X) {
 #' @return an n x n distance matrix
 #' @export
 distSquared <- function(A, B) {
-    .Call('KDRcpp_distSquared', PACKAGE = 'KDRcpp', A, B)
+    .Call('_KDRcpp_distSquared', PACKAGE = 'KDRcpp', A, B)
 }
 
 #' Radial basis function kernel matrix
@@ -117,6 +117,6 @@ distSquared <- function(A, B) {
 #' x <- as.matrix(rnorm(5e2, 0, 1))
 #' K <- RBFdot(x, x, .5)
 RBFdot <- function(X, Y, sigma) {
-    .Call('KDRcpp_RBFdot', PACKAGE = 'KDRcpp', X, Y, sigma)
+    .Call('_KDRcpp_RBFdot', PACKAGE = 'KDRcpp', X, Y, sigma)
 }
 

@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // kdr_linesearch_cpp
 List kdr_linesearch_cpp(const arma::mat& X, const arma::mat& Ky, const double& sz2, const arma::mat& B, const arma::mat& dB, const double eta, const double eps, const double tol);
-RcppExport SEXP KDRcpp_kdr_linesearch_cpp(SEXP XSEXP, SEXP KySEXP, SEXP sz2SEXP, SEXP BSEXP, SEXP dBSEXP, SEXP etaSEXP, SEXP epsSEXP, SEXP tolSEXP) {
+RcppExport SEXP _KDRcpp_kdr_linesearch_cpp(SEXP XSEXP, SEXP KySEXP, SEXP sz2SEXP, SEXP BSEXP, SEXP dBSEXP, SEXP etaSEXP, SEXP epsSEXP, SEXP tolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,7 +26,7 @@ END_RCPP
 }
 // kdr_trace_cpp
 arma::mat kdr_trace_cpp(arma::mat& X, arma::mat& Y, const unsigned int K, const int max_loop, const double sigmax0, const double sigmay0, const double eps, const double eta, const double anl, bool verbose, const double tol);
-RcppExport SEXP KDRcpp_kdr_trace_cpp(SEXP XSEXP, SEXP YSEXP, SEXP KSEXP, SEXP max_loopSEXP, SEXP sigmax0SEXP, SEXP sigmay0SEXP, SEXP epsSEXP, SEXP etaSEXP, SEXP anlSEXP, SEXP verboseSEXP, SEXP tolSEXP) {
+RcppExport SEXP _KDRcpp_kdr_trace_cpp(SEXP XSEXP, SEXP YSEXP, SEXP KSEXP, SEXP max_loopSEXP, SEXP sigmax0SEXP, SEXP sigmay0SEXP, SEXP epsSEXP, SEXP etaSEXP, SEXP anlSEXP, SEXP verboseSEXP, SEXP tolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // centerMatrix
 arma::mat centerMatrix(const arma::mat& X);
-RcppExport SEXP KDRcpp_centerMatrix(SEXP XSEXP) {
+RcppExport SEXP _KDRcpp_centerMatrix(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -58,7 +58,7 @@ END_RCPP
 }
 // distSquared
 arma::mat distSquared(arma::mat A, arma::mat B);
-RcppExport SEXP KDRcpp_distSquared(SEXP ASEXP, SEXP BSEXP) {
+RcppExport SEXP _KDRcpp_distSquared(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -70,7 +70,7 @@ END_RCPP
 }
 // RBFdot
 arma::mat RBFdot(const arma::mat& X, const arma::mat& Y, const double sigma);
-RcppExport SEXP KDRcpp_RBFdot(SEXP XSEXP, SEXP YSEXP, SEXP sigmaSEXP) {
+RcppExport SEXP _KDRcpp_RBFdot(SEXP XSEXP, SEXP YSEXP, SEXP sigmaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -80,4 +80,18 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(RBFdot(X, Y, sigma));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_KDRcpp_kdr_linesearch_cpp", (DL_FUNC) &_KDRcpp_kdr_linesearch_cpp, 8},
+    {"_KDRcpp_kdr_trace_cpp", (DL_FUNC) &_KDRcpp_kdr_trace_cpp, 11},
+    {"_KDRcpp_centerMatrix", (DL_FUNC) &_KDRcpp_centerMatrix, 1},
+    {"_KDRcpp_distSquared", (DL_FUNC) &_KDRcpp_distSquared, 2},
+    {"_KDRcpp_RBFdot", (DL_FUNC) &_KDRcpp_RBFdot, 3},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_KDRcpp(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

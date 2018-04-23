@@ -11,7 +11,7 @@
 //' 
 // [[Rcpp::export]]
 arma::mat centerMatrix(const arma::mat& X) {
-  const int n = X.n_rows;
+  const size_t n = X.n_rows;
   arma::mat out = X;
   arma::colvec colMean = arma::sum(out, 1) / n;
   out.each_row() -= arma::sum(out, 0) / n;
