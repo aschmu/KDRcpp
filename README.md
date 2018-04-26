@@ -10,4 +10,11 @@ KDR is a supervised dimension reduction method that uses RKHS to express conditi
 
 Currently only Gaussian kernels are supported.
 
+# Installation 
+
+The package is not available on CRAN. To install, run:
+
+	# install package devtools if necessary
+	devtools::install_github('aschmu/KDRcpp')
+
 
