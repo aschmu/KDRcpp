@@ -15,7 +15,7 @@ double F::kdr1dim(double s) {
   tmpB = u;
   arma::mat Z = X_*tmpB;
   arma::mat Kz = RBFdot(Z, Z, std::sqrt(sz2_/2.0));
-  arma::mat mZ = arma::inv_sympd(centerMatrix(Kz) + n_*eps_*arma::eye(n_,n_));
+  arma::mat mZ = arma::inv_sympd(centerMatrix(Kz) + n_*eps_*arma::eye(n_, n_));
   double t = arma::accu(Ky_ % mZ);
   
   return t;

@@ -147,7 +147,7 @@ arma::mat kdr_trace_cpp(arma::mat& X, arma::mat& Y, const unsigned int K, const 
     if (nm < tol)
       break;
     
-    List res_linesearch = kdr_linesearch_cpp(X, Ky, sz2, B, dB/nm, eta, eps, 1e-4);
+    List res_linesearch = kdr_linesearch_cpp(X, Ky, sz2, B, dB/nm, eta, eps, tol);
     B  = as<arma::mat>(res_linesearch["Bn"]);
     tr = res_linesearch["tr"];
     arma::svd_econ(u, lambda, v, B, "left");
